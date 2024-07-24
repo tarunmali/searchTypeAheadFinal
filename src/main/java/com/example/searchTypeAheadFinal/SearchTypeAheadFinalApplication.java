@@ -67,36 +67,38 @@
 package com.example.searchTypeAheadFinal;
 
 import jakarta.persistence.EntityManagerFactory;
-import org.springframework.boot.CommandLineRunner;
+import org.springframework.boot.ApplicationArguments;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import jakarta.persistence.EntityManager;
-import jakarta.persistence.EntityManagerFactory;
-import jakarta.transaction.Transactional;
 import java.util.*;
+import org.springframework.boot.ApplicationRunner;
 
 @SpringBootApplication
-public class SearchTypeAheadFinalApplication {
+public class SearchTypeAheadFinalApplication implements ApplicationRunner{
+
+	@Autowired
+	private EntityManagerFactory emf;
 
 	public static void main(String[] args) {
 		SpringApplication.run(SearchTypeAheadFinalApplication.class, args);
 	}
 
-	@Bean
-	public CommandLineRunner populateDB(EntityManagerFactory emf) {
-		return args -> {
-			EntityManager em = emf.createEntityManager();
-			em.getTransaction().begin();
-			List<FrequencyCount> data = generateData();
-			for (FrequencyCount frequencyCount : data) {
-				em.persist(frequencyCount);
-			}
-			em.getTransaction().commit();
-			em.close();
-		};
+	public void run(ApplicationArguments args) throws Exception {
+		populateDB();
+	}
+
+	public void populateDB() {
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		List<FrequencyCount> data = generateData();
+		for (FrequencyCount frequencyCount : data) {
+			em.persist(frequencyCount);
+		}
+		em.getTransaction().commit();
+		em.close();
 	}
 
 	public static List<FrequencyCount> generateData() {
