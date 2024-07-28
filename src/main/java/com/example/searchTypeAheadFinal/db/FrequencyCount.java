@@ -1,5 +1,4 @@
-package com.example.searchTypeAheadFinal;
-//package com.example.searchTypeAheadFinal;
+package com.example.searchTypeAheadFinal.db;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
